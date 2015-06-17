@@ -1,0 +1,16 @@
+<section>
+    <div ng-repeat="category in taskOri.taskList">
+        <div class="task-title">{{category.TYPE_NAME}}</div>
+        <div class="list-view">
+            <ul>
+                <li class="arrow" ng-repeat="item in category.ACTIVITY_ARRAY" ng-click="toDirect(item)">
+                    <span ng-class="{'1':'point-red','3':'point-green'}[item.STATUS]">●</span>
+                    <a>{{item.POLICY_NAME}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="border-top center ">
+    <button class="middle arc task-button" ng-click="toTempService()">{{taskOri.tempTitle}}</button>
+</section>

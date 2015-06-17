@@ -1,0 +1,14 @@
+<div class="grid-view four">
+    <ul>
+        <li ng-repeat="item in funcList">
+            <dl>
+                <dd>
+                    <a ng-click="toDirect(item)">
+                        <img ng-src="{{item.PICTURE}}" alt=""/>
+                    </a>
+                </dd>
+                <dd>{{item.TITLE}}</dd>
+            </dl>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="custServiceModule">
+<head lang="en">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>sp_custservice</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css"/>
+    <style>
+    	header div.menu-right div.menu-text {
+		    padding-right: 12px;
+		    background-image: url(resources/css/mobile/head_select.png);
+		    background-size: 20%;
+		    background-repeat: no-repeat;
+		    background-position: 100% 50%;
+		}
+    </style>
+    <script charset="utf-8" src="../skin/m1351/mobile.js"></script>
+    <script charset="utf-8" src="../skin/m1351/phonegap.js"></script>
+    <script charset="utf-8" src="resources/js/newslspub/slspub.js"></script>
+    <script charset="utf-8" src="../skin/m1351/SQLitePlugin.js"></script>
+    <script charset="utf-8" src="../skin/m1351/angular/angular.min.js"></script>
+    <script charset="utf-8" src="../skin/m1351/angular/angular-route.min.js"></script>
+    <script charset="utf-8" src="../skin/m1351/angular/pub-service.js"></script>
+    <script charset="utf-8" src="../skin/m1351/angular/websql-io.js"></script>
+    <script charset="utf-8" src="custservie_plus/cust-init.js"></script>
+    <script charset="utf-8" src="custservie_plus/cust-sign.js"></script>
+    <script charset="utf-8" src="custservie_plus/pho-sign.js"></script>
+    <!--
+        注释：上述JS的引入具有依赖性，必须按照上述顺序引入JS
+        By Ethan 2015-2-3 
+    -->
+</head>
+<body ng-controller="CustServiceCtrl">
+    <!-- Header -->
+    <header>
+        <div class="menu-left">
+            <img ng-src="{{picObj.head_back}}" ng-click="back()">
+        </div>
+        <div class="header-title">{{header}}</div>
+        <div class="menu-right">
+            <img ng-src="{{picObj.scan}}" ng-if="QRScan" onclick="barCodeSearch()"><div class="menu-text" ng-click="toggleMenu()">{{visitTyNa}}</div>
+        </div>
+    </header>
+    <!-- Current visit information -->
+    <section class="cust-content">
+        <h1 class="arrow" ng-click="toCustDetial()">{{cusObj.CUST_SHORT_NAME}}</h1><br/>
+        <h6 style="padding-right:80px">{{cusObj.BUSI_ADDR}}</h6>
+        <img class="Absolute-Center" ng-src="{{picObj.phone}}" onclick="phoneCall()"/>
+    </section>
+    <section ng-if="CType.show">
+        <div class="cust-type">
+            <label ng-repeat="item in CType.CoTypeArr track by $index">
+                <span>{{item}}</span><span ng-if="!$last">|</span>
+            </label>
+        </div>
+    </section>
+    <!-- Sign in and out section -->
+    <section class="cust-check">
+        <div class="Absolute-Center {{task_check.cloud}}" ng-show="task_check.showCloud"></div>
+        <div class="Absolute-Center {{task_check.check}}" onclick="signAction()" style="right:{{task_check.right}};left:{{task_check.left}}">
+            <span class="Absolute-Center title">{{task_check.title}}</span>
+            <span class=" Absolute-Center down"></span>
+            <div class="Absolute-Center local"></div>
+        </div>
+        <div class="Absolute-Center check_watting " ng-show="task_check.showWatting" style="right:{{task_check.right_w}};left:{{task_check.left_w}}">
+            <div class="Absolute-Center local"></div>
+        </div>
+        <div class="Absolute-Center check_watting2 " ng-show="task_check.showWatting2">
+            <div class="Absolute-Center local"></div>
+        </div>
+        <div class="bottom-line"></div>
+        <img ng-src="{{picObj.backimg}}"/>
+    </section>
+     <!-- Functions -->
+     <section>
+         <div ng-view></div>
+     </section>
+     <!-- Mode -->
+     <section ng-show="showMenu">
+         <div class="Modal-Background" ng-click="toggleMenu()"></div>
+         <div class="pop-menu">
+             <span class=" Absolute-Center down"></span>
+             <ul>
+                 <li class="border">
+                     <label for="a1">{{mode.actual.name}}</label>
+                     <input name="a" id="a1" type="radio" ng-checked='mode.actual.checked' ng-click="mode.changeMode(mode.actual.visitType)">
+                 </li>
+                 <li>
+                     <label for="a2">{{mode.phone.name}}</label>
+                     <input name="a" id="a2" type="radio" ng-checked='mode.phone.checked' ng-click="mode.changeMode(mode.phone.visitType)">
+                 </li>
+             </ul>
+             <ul>
+                 <li>{{mode.exception.name}}</li>
+                 <div style="position: relative;"><span class=" Absolute-Center down" ></span></div>
+             </ul>
+             <div class="visit-exception">
+                 <div ng-repeat="item in mode.exception.reason">
+                     <input name="b" id="{{item.NAME}}" type="radio" ng-checked='item.checked' ng-click="mode.excepVisit(item)"/>
+                     <label for="{{item.NAME}}">{{item.VALUE}}</label><br/>
+                 </div>
+             </div>
+         </div>
+     </section>
+</body>
+</html>
